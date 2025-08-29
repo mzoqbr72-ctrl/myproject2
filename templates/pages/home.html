@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block ahmed %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Center - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .hero-section {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 100px 0;
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .game-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .game-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .game-text {
+            color: #b0b0b0;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .btn-play {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            border: none;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 600;
+            color: #fff;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-play:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            background: linear-gradient(135deg, #feb47b, #ff7e5f);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            text-align: center;
+            color: #fff;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            border-radius: 2px;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.7) !important;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-link {
+            color: #e0e0e0 !important;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #ff7e5f !important;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px 0;
+            margin-top: 80px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-gamepad me-2"></i>GameHub
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section mt-5 pt-5">
+        <div class="container">
+            <h1 class="hero-title">Ultimate Gaming Experience</h1>
+            <p class="hero-subtitle">Play, compete, and have fun with our collection of exciting games</p>
+        </div>
+    </div>
+
+    <!-- Games Section -->
+    <div class="container mb-5">
+        <h2 class="section-title">Featured Games</h2>
+        <div class="row g-4">
+
+            <!-- Game 1 - Chess -->
+            <div class="col-md-4">
+                <div class="game-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg" 
+                         class="game-img" alt="Chess Game">
+                    <div class="game-body">
+                        <h3 class="game-title">♟️ Chess Master</h3>
+                        <p class="game-text">Test your strategic thinking with the classic game of kings. Challenge yourself or play with friends.</p>
+                        <a href="{% url 'game1' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 2 - XO -->
+            <div class="col-md-4">
+                <div class="game-card">
+                    <img src="https://images.unsplash.com/photo-1609921212029-bb5a28e60960?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                         class="game-img" alt="XO Game">
+                    <div class="game-body">
+                        <h3 class="game-title">❌⭕ XO Challenge</h3>
+                        <p class="game-text">The classic game of Xs and Os with a modern twist. Play against the computer or challenge a friend.</p>
+                        <a href="{% url 'game2' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game 3 - Memory -->
+            <div class="col-md-4">
+                <div class="game-card">
+                    <img src="https://images.unsplash.com/photo-1596003906949-67221c37965c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
+                         class="game-img" alt="Memory Game">
+                    <div class="game-body">
+                        <h3 class="game-title">🖼️ Memory Match</h3>
+                        <p class="game-text">Test your memory skills with this challenging matching game. Find all pairs to win!</p>
+                        <a href="{% url 'game3' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-md-start text-center">
+                    <h4>GameHub</h4>
+                    <p>The ultimate destination for online games</p>
+                </div>
+                <div class="col-md-6 text-md-end text-center">
+                    <div class="social-links mb-3">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <p>&copy; 2023 GameHub. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+{% endblock ahmed %}
