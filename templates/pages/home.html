@@ -1,281 +1,568 @@
 {% extends "base.html" %}
-
 {% block ahmed %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Center - Home</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-            min-height: 100vh;
-        }
 
-        .hero-section {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 100px 0;
-            text-align: center;
-            margin-bottom: 50px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .hero-subtitle {
-            font-size: 1.5rem;
-            margin-bottom: 30px;
-            color: #e0e0e0;
-        }
-
-        .game-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            height: 100%;
-        }
-
-        .game-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .game-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .game-body {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .game-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: #fff;
-        }
-
-        .game-text {
-            color: #b0b0b0;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .btn-play {
-            background: linear-gradient(135deg, #ff7e5f, #feb47b);
-            border: none;
-            border-radius: 50px;
-            padding: 10px 25px;
-            font-weight: 600;
-            color: #fff;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-play:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3);
-            color: #fff;
-            background: linear-gradient(135deg, #feb47b, #ff7e5f);
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 40px;
-            text-align: center;
-            color: #fff;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            border-radius: 2px;
-        }
-
-        .navbar {
-            background: rgba(0, 0, 0, 0.7) !important;
-            backdrop-filter: blur(10px);
-        }
-
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.8rem;
-            background: linear-gradient(to right, #ff7e5f, #feb47b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .nav-link {
-            color: #e0e0e0 !important;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #ff7e5f !important;
-        }
-
-        footer {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px 0;
-            margin-top: 80px;
-            text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+<!-- Hero Section -->
+<section class="hero-section">
+    <!-- Dark Mode Toggle Button for Home Page -->
+    <button class="home-theme-toggle" id="homeThemeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-sun sun-icon"></i>
+        <i class="fas fa-moon moon-icon"></i>
+    </button>
+    
+    <div class="hero-content">
         <div class="container">
-            <a class="navbar-brand" href="#">
-                <i class="fas fa-gamepad me-2"></i>GameHub
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Games</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
-                    </li>
-                </ul>
+            <h1 class="display-4 mb-4">Crowdfunding in Egypt</h1>
+            <p class="lead mb-5">Support amazing projects and make a difference in your community</p>
+            
+            <!-- Enhanced Search Bar with Categories -->
+            <div class="search-container">
+                <form method="get" action="{% url 'project_list' %}" class="search-form">
+                    <div class="search-input-group">
+                        <input type="text" name="search" class="form-control form-control-lg" placeholder="Search projects by title, tags, or details..." required>
+                        <select name="category" class="form-select form-select-lg">
+                            <option value="">All Categories</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg">
+                        <i class="fas fa-search me-2"></i>Search
+                    </button>
+                </form>
+            </div>
+            
+            <div class="mt-4">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'project_create' %}" class="btn btn-success btn-lg me-3">
+                        <i class="fas fa-plus me-2"></i>Start Your Project
+                    </a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-success btn-lg me-3">
+                        <i class="fas fa-user-plus me-2"></i>Join Now
+                    </a>
+                {% endif %}
+                <a href="{% url 'project_list' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-eye me-2"></i>Browse Projects
+                </a>
+            </div>
+            
+            <!-- Quick Stats in Hero -->
+            <div class="hero-stats mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="hero-stat-item">
+                            <i class="fas fa-rocket text-warning"></i>
+                            <span class="hero-stat-number" data-target="{{ latest_projects.count }}">0</span>
+                            <span class="hero-stat-label">Active Projects</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="hero-stat-item">
+                            <i class="fas fa-users text-info"></i>
+                            <span class="hero-stat-number" data-target="500">0</span>
+                            <span class="hero-stat-label">Backers</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="hero-stat-item">
+                            <i class="fas fa-egyptian text-success"></i>
+                            <span class="hero-stat-number" data-target="50">0</span>
+                            <span class="hero-stat-label">Cities</span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="hero-stat-item">
+                            <i class="fas fa-heart text-danger"></i>
+                            <span class="hero-stat-number" data-target="1000">0</span>
+                            <span class="hero-stat-label">Success Stories</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </nav>
+    </div>
+    
+    <!-- Floating Elements Animation -->
+    <div class="floating-elements">
+        <div class="floating-icon" style="--delay: 0s; --position: 10%">
+            <i class="fas fa-lightbulb"></i>
+        </div>
+        <div class="floating-icon" style="--delay: 2s; --position: 20%">
+            <i class="fas fa-star"></i>
+        </div>
+        <div class="floating-icon" style="--delay: 4s; --position: 70%">
+            <i class="fas fa-heart"></i>
+        </div>
+        <div class="floating-icon" style="--delay: 6s; --position: 80%">
+            <i class="fas fa-gem"></i>
+        </div>
+    </div>
+</section>
 
-    <!-- Hero Section -->
-    <div class="hero-section mt-5 pt-5">
-        <div class="container">
-            <h1 class="hero-title">Ultimate Gaming Experience</h1>
-            <p class="hero-subtitle">Play, compete, and have fun with our collection of exciting games</p>
+<div class="container mt-5">
+    <!-- Enhanced Stats Section with Animations -->
+    <div class="row mb-5">
+        <div class="col-md-3 mb-4">
+            <div class="stats-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="stats-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="stats-number" data-count="{{ latest_projects.count }}">0</div>
+                <div class="stats-label">Active Projects</div>
+                <div class="stats-progress">
+                    <div class="progress-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="stats-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="stats-number" data-count="{{ categories.count }}">0</div>
+                <div class="stats-label">Categories</div>
+                <div class="stats-progress">
+                    <div class="progress-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="stats-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stats-number" data-count="100">0</div>
+                <div class="stats-label">Secure</div>
+                <div class="stats-progress">
+                    <div class="progress-line"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-4">
+            <div class="stats-card" data-aos="fade-up" data-aos-delay="400">
+                <div class="stats-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <div class="stats-number" data-count="24">0</div>
+                <div class="stats-label">Support</div>
+                <div class="stats-progress">
+                    <div class="progress-line"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Games Section -->
-    <div class="container mb-5">
-        <h2 class="section-title">Featured Games</h2>
-        <div class="row g-4">
-
-            <!-- Game 1 - Chess -->
-            <div class="col-md-4">
-                <div class="game-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/ChessSet.jpg" 
-                         class="game-img" alt="Chess Game">
-                    <div class="game-body">
-                        <h3 class="game-title">♟️ Chess Master</h3>
-                        <p class="game-text">Test your strategic thinking with the classic game of kings. Challenge yourself or play with friends.</p>
-                        <a href="{% url 'game1' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
-
-                    </div>
+    <!-- Featured Categories with Enhanced Design -->
+    {% if categories %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4 section-title">
+                    <i class="fas fa-tags text-success me-2"></i>Browse by Category
+                    <div class="title-underline"></div>
+                </h2>
+                <div class="row">
+                    {% for category in categories %}
+                        <div class="col-lg-3 col-md-4 col-sm-6 mb-3">
+                            <div class="category-card h-100" data-aos="zoom-in" data-aos-delay="{{ forloop.counter }}00">
+                                <div class="category-icon">
+                                    <i class="fas fa-folder-open"></i>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ category.name }}</h5>
+                                    {% if category.description %}
+                                        <p class="card-text text-muted">{{ category.description|truncatewords:10 }}</p>
+                                    {% endif %}
+                                    <div class="category-stats">
+                                        <span class="category-count">Projects</span>
+                                    </div>
+                                    <a href="{% url 'project_list' %}?category={{ category.id }}" class="btn btn-outline-primary category-btn">
+                                        <i class="fas fa-arrow-right me-1"></i>Browse Projects
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
-
-            <!-- Game 2 - XO -->
-            <div class="col-md-4">
-                <div class="game-card">
-                    <img src="https://images.unsplash.com/photo-1609921212029-bb5a28e60960?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
-                         class="game-img" alt="XO Game">
-                    <div class="game-body">
-                        <h3 class="game-title">❌⭕ XO Challenge</h3>
-                        <p class="game-text">The classic game of Xs and Os with a modern twist. Play against the computer or challenge a friend.</p>
-                        <a href="{% url 'game2' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Game 3 - Memory -->
-            <div class="col-md-4">
-                <div class="game-card">
-                    <img src="https://images.unsplash.com/photo-1596003906949-67221c37965c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" 
-                         class="game-img" alt="Memory Game">
-                    <div class="game-body">
-                        <h3 class="game-title">🖼️ Memory Match</h3>
-                        <p class="game-text">Test your memory skills with this challenging matching game. Find all pairs to win!</p>
-                        <a href="{% url 'game3' %}" class="btn btn-play">Play Now <i class="fas fa-arrow-right ms-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </div>
+    {% endif %}
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
+    <!-- Highest Rated Projects with Enhanced Cards -->
+    {% if highest_rated_projects %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4 section-title">
+                    <i class="fas fa-star text-warning me-2"></i>Highest Rated Projects
+                    <div class="title-underline"></div>
+                </h2>
+                <div class="row">
+                    {% for project in highest_rated_projects %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card project-card h-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                                <div class="project-image-container">
+                                    {% if project.images.first %}
+                                        <img src="{{ project.images.first.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                                    {% else %}
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                        </div>
+                                    {% endif %}
+                                    <div class="project-overlay">
+                                        <div class="project-rating">
+                                            <i class="fas fa-star"></i>
+                                            <span>{{ project.avg_rating|floatformat:1 }}/5</span>
+                                        </div>
+                                        <div class="project-category">
+                                            {% if project.category %}
+                                                <span class="badge bg-primary">{{ project.category.name }}</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <p class="card-text text-muted">{{ project.details|truncatewords:15 }}</p>
+                                    
+                                    <!-- Enhanced Progress Bar -->
+                                    <div class="progress-container mb-3">
+                                        <div class="progress-info">
+                                            <span class="progress-percentage">{{ project.get_progress_percentage|floatformat:1 }}%</span>
+                                            <span class="progress-amount">{{ project.current_amount }} / {{ project.total_target }} EGP</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ project.get_progress_percentage }}%">
+                                                <div class="progress-shine"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Project Stats -->
+                                    <div class="project-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>{{ project.end_date|timeuntil }} left</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            <span>0 backers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'project_detail' project.id %}" class="btn btn-primary btn-sm w-100">
+                                        <i class="fas fa-eye me-1"></i>View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Featured Projects with Enhanced Design -->
+    {% if featured_projects %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4 section-title">
+                    <i class="fas fa-fire text-danger me-2"></i>Featured Projects
+                    <div class="title-underline"></div>
+                </h2>
+                <div class="row">
+                    {% for project in featured_projects %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card project-card featured h-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                                <div class="featured-badge">
+                                    <i class="fas fa-fire"></i> Featured
+                                </div>
+                                <div class="project-image-container">
+                                    {% if project.images.first %}
+                                        <img src="{{ project.images.first.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                                    {% else %}
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <p class="card-text text-muted">{{ project.details|truncatewords:15 }}</p>
+                                    
+                                    <div class="progress-container mb-3">
+                                        <div class="progress-info">
+                                            <span class="progress-percentage">{{ project.get_progress_percentage|floatformat:1 }}%</span>
+                                            <span class="progress-amount">{{ project.current_amount }} / {{ project.total_target }} EGP</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ project.get_progress_percentage }}%">
+                                                <div class="progress-shine"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="project-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>{{ project.end_date|timeuntil }} left</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            <span>0 backers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'project_detail' project.id %}" class="btn btn-primary btn-sm w-100">
+                                        <i class="fas fa-eye me-1"></i>View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Latest Projects with Enhanced Cards -->
+    {% if latest_projects %}
+        <div class="row mb-5">
+            <div class="col-12">
+                <h2 class="text-center mb-4 section-title">
+                    <i class="fas fa-clock text-info me-2"></i>Latest Projects
+                    <div class="title-underline"></div>
+                </h2>
+                <div class="row">
+                    {% for project in latest_projects %}
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card project-card latest h-100" data-aos="fade-up" data-aos-delay="{{ forloop.counter }}00">
+                                <div class="latest-badge">
+                                    <i class="fas fa-clock"></i> New
+                                </div>
+                                <div class="project-image-container">
+                                    {% if project.images.first %}
+                                        <img src="{{ project.images.first.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                                    {% else %}
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ project.title }}</h5>
+                                    <p class="card-text text-muted">{{ project.details|truncatewords:15 }}</p>
+                                    
+                                    <div class="progress-container mb-3">
+                                        <div class="progress-info">
+                                            <span class="progress-percentage">{{ project.get_progress_percentage|floatformat:1 }}%</span>
+                                            <span class="progress-amount">{{ project.current_amount }} / {{ project.total_target }} EGP</span>
+                                        </div>
+                                        <div class="progress">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ project.get_progress_percentage }}%">
+                                                <div class="progress-shine"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="project-stats">
+                                        <div class="stat-item">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span>{{ project.end_date|timeuntil }} left</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <i class="fas fa-users"></i>
+                                            <span>0 backers</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{% url 'project_detail' project.id %}" class="btn btn-primary btn-sm w-100">
+                                        <i class="fas fa-eye me-1"></i>View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="text-center">
+                    <a href="{% url 'project_list' %}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-list me-2"></i>View All Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Success Stories Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4 section-title">
+                <i class="fas fa-trophy text-warning me-2"></i>Success Stories
+                <div class="title-underline"></div>
+            </h2>
             <div class="row">
-                <div class="col-md-6 text-md-start text-center">
-                    <h4>GameHub</h4>
-                    <p>The ultimate destination for online games</p>
-                </div>
-                <div class="col-md-6 text-md-end text-center">
-                    <div class="social-links mb-3">
-                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-white"><i class="fab fa-youtube"></i></a>
+                <div class="col-md-4 mb-4">
+                    <div class="success-story-card" data-aos="fade-right" data-aos-delay="100">
+                        <div class="story-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h5>Education Revolution</h5>
+                        <p>Helped 500 students access quality education through innovative learning platforms.</p>
+                        <div class="story-stats">
+                            <span class="stat">500+ Students</span>
+                            <span class="stat">100% Funded</span>
+                        </div>
                     </div>
-                    <p>&copy; 2023 GameHub. All rights reserved.</p>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="success-story-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="story-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h5>Green Energy Initiative</h5>
+                        <p>Installed solar panels in 10 villages, providing clean energy to 2000+ families.</p>
+                        <div class="story-stats">
+                            <span class="stat">10 Villages</span>
+                            <span class="stat">2000+ Families</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="success-story-card" data-aos="fade-left" data-aos-delay="300">
+                        <div class="story-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h5>Healthcare Access</h5>
+                        <p>Built medical clinics serving 15,000 people in remote areas of Egypt.</p>
+                        <div class="story-stats">
+                            <span class="stat">15,000 People</span>
+                            <span class="stat">5 Clinics</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <!-- How It Works Section -->
+    <div class="row mb-5">
+        <div class="col-12">
+            <h2 class="text-center mb-4 section-title">
+                <i class="fas fa-question-circle text-primary me-2"></i>How It Works
+                <div class="title-underline"></div>
+            </h2>
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="how-it-works-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="step-number">1</div>
+                        <div class="step-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h5>Create Your Idea</h5>
+                        <p>Share your innovative project idea with our community</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="how-it-works-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="step-number">2</div>
+                        <div class="step-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5>Build Support</h5>
+                        <p>Connect with backers who believe in your vision</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="how-it-works-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="step-number">3</div>
+                        <div class="step-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h5>Launch & Grow</h5>
+                        <p>Bring your project to life with community funding</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="how-it-works-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="step-number">4</div>
+                        <div class="step-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <h5>Celebrate Success</h5>
+                        <p>Share your achievements and inspire others</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Enhanced Call to Action Section -->
+<section class="cta-section">
+    <div class="cta-content">
+        <div class="container">
+            <h3 class="mb-4">Ready to make a difference?</h3>
+            <p class="lead mb-4">Join our community of creators and supporters</p>
+            <div class="cta-buttons">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'project_create' %}" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-plus me-2"></i>Create a Project
+                    </a>
+                    <a href="{% url 'project_list' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-search me-2"></i>Browse Projects
+                    </a>
+                {% else %}
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-user-plus me-2"></i>Get Started
+                    </a>
+                    <a href="{% url 'project_list' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-eye me-2"></i>Explore Projects
+                    </a>
+                {% endif %}
+            </div>
+            
+            <!-- Social Proof -->
+            <div class="social-proof mt-5">
+                <p class="text-light mb-3">Trusted by thousands of Egyptians</p>
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-lock"></i>
+                        <span>Protected</span>
+                    </div>
+                    <div class="trust-badge">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Verified</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Subscription -->
+<section class="newsletter-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h4 class="mb-3">Stay Updated</h4>
+                <p class="text-muted mb-4">Get notified about new projects and success stories</p>
+                <form class="newsletter-form">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Enter your email address">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-paper-plane"></i> Subscribe
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock ahmed %}

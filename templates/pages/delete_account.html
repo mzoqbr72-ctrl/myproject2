@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-lg border-danger">
+                <div class="card-header text-center bg-danger text-white">
+                    <h4 class="mb-0">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Delete Account
+                    </h4>
+                    <p class="text-white-50 mb-0">This action cannot be undone</p>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-user-times text-danger" style="font-size: 3rem;"></i>
+                        <h5 class="text-danger mt-3">Are you sure you want to delete your account?</h5>
+                        <p class="text-muted">This action will permanently remove your account and all associated data from our platform.</p>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h6 class="alert-heading">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Warning
+                        </h6>
+                        <ul class="mb-0">
+                            <li>All your projects will be permanently deleted</li>
+                            <li>All your donations and comments will be removed</li>
+                            <li>Your profile information will be erased</li>
+                            <li>This action cannot be reversed</li>
+                        </ul>
+                    </div>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock me-2"></i>Confirm Your Password
+                            </label>
+                            <input type="password" class="form-control" id="password" name="password" required 
+                                   placeholder="Enter your password to confirm">
+                            <small class="text-muted">You must enter your password to confirm account deletion</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="confirmDelete" required>
+                                <label class="form-check-label" for="confirmDelete">
+                                    I understand that this action is permanent and cannot be undone
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-danger btn-lg" id="deleteBtn" disabled>
+                                <i class="fas fa-trash me-2"></i>Permanently Delete Account
+                            </button>
+                            <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Cancel
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Alternative Options -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-lightbulb me-2 text-info"></i>Consider These Alternatives
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <a href="{% url 'profile_edit' %}" class="text-decoration-none">Update your profile information</a>
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <a href="#" class="text-decoration-none">Contact support for assistance</a>
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            <a href="#" class="text-decoration-none">Temporarily deactivate your account</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Enable delete button only when checkbox is checked
+document.getElementById('confirmDelete').addEventListener('change', function() {
+    const deleteBtn = document.getElementById('deleteBtn');
+    deleteBtn.disabled = !this.checked;
+});
+
+// Additional confirmation before form submission
+document.querySelector('form').addEventListener('submit', function(e) {
+    if (!confirm('Are you absolutely sure you want to delete your account? This action cannot be undone.')) {
+        e.preventDefault();
+    }
+});
+</script>
+
+{% endblock ahmed %}

@@ -1,3 +1,717 @@
-
-{% block title %}{% endblock title %}
-{% block ahmed %}{% endblock ahmed %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Crowdfunding Egypt{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% load static %}{% static 'css/style.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    {% include 'patrts/navbar.html' %}
+    
+    <!-- Messages -->
+    {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    <i class="fas fa-{% if message.tags == 'success' %}check-circle{% elif message.tags == 'error' %}exclamation-circle{% elif message.tags == 'warning' %}exclamation-triangle{% else %}info-circle{% endif %} me-2"></i>
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <!-- Main Content -->
+    <main class="min-vh-100">
+        {% block ahmed %}{% endblock %}
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <h5><i class="fas fa-heart me-2"></i>Crowdfunding Egypt</h5>
+                    <p class="text-muted">Empowering dreams and making a difference in Egypt through community funding.</p>
+                    <div class="social-links">
+                        <a href="#" class="me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Platform</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="{% url 'home' %}">Home</a></li>
+                        <li><a href="{% url 'project_list' %}">Projects</a></li>
+                        <li><a href="{% url 'project_create' %}">Create Project</a></li>
+                        <li><a href="#">How It Works</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 mb-4">
+                    <h5>Support</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h5>Newsletter</h5>
+                    <p class="text-muted">Stay updated with the latest projects and news.</p>
+                    <form class="d-flex">
+                        <input type="email" class="form-control me-2" placeholder="Enter your email">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0">&copy; 2024 Crowdfunding Egypt. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0">Made with <i class="fas fa-heart text-danger"></i> in Egypt</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Dark Mode Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-moon"></i>
+    </button>
+    
+    <!-- Dark Mode Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" title="Toggle Dark Mode">
+        <i class="fas fa-sun sun-icon"></i>
+        <i class="fas fa-moon moon-icon"></i>
+    </button>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Enhanced Custom JavaScript -->
+    <script>
+        // Dark Mode Functionality
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme) {
+                html.setAttribute('data-theme', savedTheme);
+            } else if (systemPrefersDark) {
+                html.setAttribute('data-theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+            }
+            
+            // Theme toggle functionality
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                
+                // Add smooth transition effect
+                html.style.transition = 'all 0.3s ease';
+                setTimeout(() => {
+                    html.style.transition = '';
+                }, 300);
+            });
+            
+            // Listen for system theme changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+                if (!localStorage.getItem('theme')) {
+                    const newTheme = e.matches ? 'dark' : 'light';
+                    html.setAttribute('data-theme', newTheme);
+                }
+            });
+        }
+        
+        // Enhanced scroll effects and modern interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Initialize dark mode
+            initTheme();
+            
+            // Home page dark mode toggle
+            const homeThemeToggle = document.getElementById('homeThemeToggle');
+            if (homeThemeToggle) {
+                homeThemeToggle.addEventListener('click', function() {
+                    const html = document.documentElement;
+                    const currentTheme = html.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    html.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    
+                    // Show toast notification
+                    CrowdfundingUtils.showToast(
+                        newTheme === 'dark' ? 'Dark mode enabled' : 'Light mode enabled',
+                        'success'
+                    );
+                });
+            }
+            
+            // Navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+            
+            // Enhanced fade-in animations with intersection observer
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Add staggered animation for cards
+                        if (entry.target.classList.contains('card')) {
+                            const cards = entry.target.parentElement.querySelectorAll('.card');
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.style.opacity = '1';
+                                    card.style.transform = 'translateY(0)';
+                                }, index * 100);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all cards and animated elements
+            document.querySelectorAll('.card, .stats-card, .project-card').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px)';
+                el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                observer.observe(el);
+            });
+            
+            // Enhanced button hover effects
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px) scale(1.02)';
+                });
+                
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Enhanced card hover effects
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Parallax effect for hero section
+            const heroSection = document.querySelector('.hero-section');
+            if (heroSection) {
+                window.addEventListener('scroll', function() {
+                    const scrolled = window.pageYOffset;
+                    const rate = scrolled * -0.5;
+                    heroSection.style.transform = `translateY(${rate}px)`;
+                });
+            }
+            
+            // Enhanced progress bar animations
+            document.querySelectorAll('.progress-bar').forEach(progressBar => {
+                const observer = new IntersectionObserver(function(entries) {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const width = entry.target.style.width;
+                            entry.target.style.width = '0%';
+                            setTimeout(() => {
+                                entry.target.style.width = width;
+                            }, 300);
+                        }
+                    });
+                });
+                observer.observe(progressBar);
+            });
+            
+            // Enhanced form interactions
+            document.querySelectorAll('.form-control, .form-select').forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Enhanced search bar
+            const searchInput = document.querySelector('input[name="search"]');
+            if (searchInput) {
+                searchInput.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                    this.parentElement.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1)';
+                });
+                
+                searchInput.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                    this.parentElement.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                });
+            }
+            
+            // Enhanced image hover effects
+            document.querySelectorAll('.card-img-top').forEach(img => {
+                img.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                });
+                
+                img.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Enhanced rating system
+            document.querySelectorAll('.rating-star').forEach(star => {
+                star.addEventListener('mouseenter', function() {
+                    const stars = this.parentElement.querySelectorAll('.rating-star');
+                    const currentIndex = Array.from(stars).indexOf(this);
+                    
+                    stars.forEach((s, index) => {
+                        if (index <= currentIndex) {
+                            s.style.color = '#ffc107';
+                            s.style.transform = 'scale(1.2)';
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseleave', function() {
+                    const stars = this.parentElement.querySelectorAll('.rating-star');
+                    stars.forEach(s => {
+                        s.style.transform = 'scale(1)';
+                    });
+                });
+            });
+            
+            // Enhanced pagination
+            document.querySelectorAll('.page-link').forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Enhanced dropdown animations
+            document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    const dropdown = this.nextElementSibling;
+                    dropdown.style.display = 'block';
+                    dropdown.style.opacity = '0';
+                    dropdown.style.transform = 'translateY(-10px)';
+                    
+                    setTimeout(() => {
+                        dropdown.style.opacity = '1';
+                        dropdown.style.transform = 'translateY(0)';
+                    }, 10);
+                });
+            });
+            
+            // Enhanced modal animations
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(trigger => {
+                trigger.addEventListener('click', function() {
+                    const modalId = this.getAttribute('data-bs-target');
+                    const modal = document.querySelector(modalId);
+                    
+                    if (modal) {
+                        modal.addEventListener('show.bs.modal', function() {
+                            this.querySelector('.modal-content').style.transform = 'scale(0.8)';
+                            this.querySelector('.modal-content').style.opacity = '0';
+                        });
+                        
+                        modal.addEventListener('shown.bs.modal', function() {
+                            this.querySelector('.modal-content').style.transform = 'scale(1)';
+                            this.querySelector('.modal-content').style.opacity = '1';
+                        });
+                    }
+                });
+            });
+            
+            // Enhanced tooltip initialization
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl, {
+                    template: '<div class="tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'
+                });
+            });
+            
+            // Enhanced auto-dismiss alerts with smooth animation
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transform = 'translateX(100%)';
+                    alert.style.opacity = '0';
+                    setTimeout(() => {
+                        const bsAlert = new bootstrap.Alert(alert);
+                        bsAlert.close();
+                    }, 300);
+                }, 5000);
+            });
+            
+            // Enhanced smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Enhanced loading spinner for form submissions
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function() {
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    if (submitBtn) {
+                        const originalText = submitBtn.innerHTML;
+                        submitBtn.innerHTML = '<span class="spinner me-2"></span>Loading...';
+                        submitBtn.disabled = true;
+                        
+                        // Re-enable after 5 seconds (fallback)
+                        setTimeout(() => {
+                            submitBtn.innerHTML = originalText;
+                            submitBtn.disabled = false;
+                        }, 5000);
+                    }
+                });
+            });
+            
+            // Enhanced mobile menu animations
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            
+            if (navbarToggler && navbarCollapse) {
+                navbarToggler.addEventListener('click', function() {
+                    navbarCollapse.classList.toggle('show');
+                    
+                    if (navbarCollapse.classList.contains('show')) {
+                        navbarCollapse.style.transform = 'translateY(0)';
+                        navbarCollapse.style.opacity = '1';
+                    } else {
+                        navbarCollapse.style.transform = 'translateY(-10px)';
+                        navbarCollapse.style.opacity = '0';
+                    }
+                });
+            }
+            
+            // Enhanced scroll to top functionality
+            const scrollToTopBtn = document.createElement('button');
+            scrollToTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+            scrollToTopBtn.className = 'btn btn-primary position-fixed';
+            scrollToTopBtn.style.cssText = 'bottom: 20px; right: 20px; z-index: 1000; border-radius: 50%; width: 50px; height: 50px; display: none;';
+            document.body.appendChild(scrollToTopBtn);
+            
+            window.addEventListener('scroll', function() {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.style.display = 'block';
+                    scrollToTopBtn.style.opacity = '1';
+                } else {
+                    scrollToTopBtn.style.opacity = '0';
+                    setTimeout(() => {
+                        scrollToTopBtn.style.display = 'none';
+                    }, 300);
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Enhanced image lazy loading
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+            
+            images.forEach(img => imageObserver.observe(img));
+            
+            // Enhanced keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    // Close modals, dropdowns, etc.
+                    document.querySelectorAll('.modal.show, .dropdown.show').forEach(el => {
+                        if (el.classList.contains('modal')) {
+                            const modal = bootstrap.Modal.getInstance(el);
+                            if (modal) modal.hide();
+                        } else {
+                            el.classList.remove('show');
+                        }
+                    });
+                }
+            });
+            
+            // Enhanced touch interactions for mobile
+            let touchStartY = 0;
+            let touchEndY = 0;
+            
+            document.addEventListener('touchstart', function(e) {
+                touchStartY = e.changedTouches[0].screenY;
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartY - touchEndY;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe up
+                        console.log('Swipe up detected');
+                    } else {
+                        // Swipe down
+                        console.log('Swipe down detected');
+                    }
+                }
+            }
+            
+            // Enhanced performance monitoring
+            if ('performance' in window) {
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        const perfData = performance.getEntriesByType('navigation')[0];
+                        console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
+                    }, 0);
+                });
+            }
+        });
+        
+        // Dark Mode Toggle Functionality
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                updateThemeIcon(savedTheme);
+            } else if (systemPrefersDark) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                updateThemeIcon('dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                updateThemeIcon('light');
+            }
+        }
+        
+        function updateThemeIcon(theme) {
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                if (theme === 'dark') {
+                    icon.className = 'fas fa-sun';
+                    themeToggle.title = 'Switch to Light Mode';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    themeToggle.title = 'Switch to Dark Mode';
+                }
+            }
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+            
+            // Show toast notification
+            if (window.CrowdfundingUtils && window.CrowdfundingUtils.showToast) {
+                const message = newTheme === 'dark' ? 'Dark mode enabled' : 'Light mode enabled';
+                window.CrowdfundingUtils.showToast(message, 'success', 2000);
+            }
+        }
+        
+        // Initialize theme on page load
+        initTheme();
+        
+        // Add event listener for theme toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', toggleTheme);
+            }
+            
+            // Home page specific dark mode toggle
+            const homeThemeToggle = document.getElementById('homeThemeToggle');
+            if (homeThemeToggle) {
+                homeThemeToggle.addEventListener('click', function() {
+                    const currentTheme = document.documentElement.getAttribute('data-theme');
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateThemeIcon(newTheme);
+                    
+                    // Update home page toggle icons
+                    const sunIcon = homeThemeToggle.querySelector('.sun-icon');
+                    const moonIcon = homeThemeToggle.querySelector('.moon-icon');
+                    
+                    if (newTheme === 'dark') {
+                        sunIcon.style.display = 'none';
+                        moonIcon.style.display = 'inline-block';
+                    } else {
+                        sunIcon.style.display = 'inline-block';
+                        moonIcon.style.display = 'none';
+                    }
+                    
+                    // Show toast notification
+                    if (window.CrowdfundingUtils && window.CrowdfundingUtils.showToast) {
+                        const message = newTheme === 'dark' ? 'Dark mode enabled' : 'Light mode enabled';
+                        window.CrowdfundingUtils.showToast(message, 'success', 2000);
+                    }
+                });
+                
+                // Initialize home page toggle icons
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const sunIcon = homeThemeToggle.querySelector('.sun-icon');
+                const moonIcon = homeThemeToggle.querySelector('.moon-icon');
+                
+                if (currentTheme === 'dark') {
+                    sunIcon.style.display = 'none';
+                    moonIcon.style.display = 'inline-block';
+                } else {
+                    sunIcon.style.display = 'inline-block';
+                    moonIcon.style.display = 'none';
+                }
+            }
+        });
+        
+        // Enhanced utility functions
+        window.CrowdfundingUtils = {
+            // Debounce function for performance
+            debounce: function(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            },
+            
+            // Throttle function for scroll events
+            throttle: function(func, limit) {
+                let inThrottle;
+                return function() {
+                    const args = arguments;
+                    const context = this;
+                    if (!inThrottle) {
+                        func.apply(context, args);
+                        inThrottle = true;
+                        setTimeout(() => inThrottle = false, limit);
+                    }
+                };
+            },
+            
+            // Smooth number counter animation
+            animateCounter: function(element, target, duration = 2000) {
+                let start = 0;
+                const increment = target / (duration / 16);
+                
+                function updateCounter() {
+                    start += increment;
+                    if (start < target) {
+                        element.textContent = Math.floor(start);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        element.textContent = target;
+                    }
+                }
+                
+                updateCounter();
+            },
+            
+            // Enhanced toast notifications
+            showToast: function(message, type = 'info', duration = 3000) {
+                const toast = document.createElement('div');
+                toast.className = `alert alert-${type} position-fixed`;
+                toast.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+                toast.innerHTML = `
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'} me-2"></i>
+                    ${message}
+                    <button type="button" class="btn-close ms-2" onclick="this.parentElement.remove()"></button>
+                `;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.style.transform = 'translateX(100%)';
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, duration);
+            }
+        };
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
