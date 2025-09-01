@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-user-edit me-2"></i>Edit Profile
+                    </h4>
+                    <p class="text-muted mb-0">Update your personal information</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Profile Picture -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-camera me-2 text-primary"></i>Profile Picture
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-md-3 text-center">
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" class="profile-picture mb-3" alt="Current Profile Picture">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/50" class="profile-picture mb-3" alt="Default Profile Picture">
+                                {% endif %}
+                            </div>
+                            <div class="col-md-9">
+                                <div class="mb-3">
+                                    <label for="profile_picture" class="form-label">
+                                        <i class="fas fa-upload me-2"></i>Update Profile Picture
+                                    </label>
+                                    <input type="file" class="form-control" id="profile_picture" name="profile_picture" accept="image/*">
+                                    <small class="text-muted">Upload a new profile picture (optional)</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-info-circle me-2 text-primary"></i>Basic Information
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="first_name" class="form-label">
+                                    <i class="fas fa-user me-2"></i>First Name
+                                </label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" 
+                                       value="{{ user.first_name }}" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="last_name" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Last Name
+                                </label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" 
+                                       value="{{ user.last_name }}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="mobile_phone" class="form-label">
+                                <i class="fas fa-phone me-2"></i>Mobile Phone
+                            </label>
+                            <input type="tel" class="form-control" id="mobile_phone" name="mobile_phone" 
+                                   value="{{ user.mobile_phone }}" required>
+                            <small class="text-muted">Egyptian mobile number format: 01xxxxxxxxx</small>
+                        </div>
+                        
+                        <!-- Additional Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-plus-circle me-2 text-success"></i>Additional Information
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="birthdate" class="form-label">
+                                    <i class="fas fa-birthday-cake me-2"></i>Birthdate
+                                </label>
+                                <input type="date" class="form-control" id="birthdate" name="birthdate" 
+                                       value="{{ user.birthdate|date:'Y-m-d' }}">
+                                <small class="text-muted">Optional - Share your birthday</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="country" class="form-label">
+                                    <i class="fas fa-globe me-2"></i>Country
+                                </label>
+                                <input type="text" class="form-control" id="country" name="country" 
+                                       value="{{ user.country }}" placeholder="e.g., Egypt">
+                                <small class="text-muted">Optional - Where are you from?</small>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="facebook_profile" class="form-label">
+                                <i class="fab fa-facebook me-2"></i>Facebook Profile URL
+                            </label>
+                            <input type="url" class="form-control" id="facebook_profile" name="facebook_profile" 
+                                   value="{{ user.facebook_profile }}" placeholder="https://facebook.com/yourprofile">
+                            <small class="text-muted">Optional - Link to your Facebook profile</small>
+                        </div>
+                        
+                        <!-- Email Information (Read-only) -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-envelope me-2 text-info"></i>Email Information
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            <input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
+                            <small class="text-muted">Email address cannot be changed for security reasons</small>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>Save Changes
+                            </button>
+                            <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Profile
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Privacy Notice -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h6 class="card-title">
+                        <i class="fas fa-shield-alt me-2 text-warning"></i>Privacy Notice
+                    </h6>
+                    <ul class="list-unstyled mb-0">
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Your email address is used for account security and cannot be changed
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-check text-success me-2"></i>
+                            Profile information is visible to other users on the platform
+                        </li>
+                        <li class="mb-0">
+                            <i class="fas fa-check text-success me-2"></i>
+                            You can update your information at any time
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Phone number validation
+document.getElementById('mobile_phone').addEventListener('input', function() {
+    const phone = this.value;
+    const egyptianPhoneRegex = /^(\+20|0)?1[0125][0-9]{8}$/;
+    
+    if (phone && !egyptianPhoneRegex.test(phone)) {
+        this.setCustomValidity('Please enter a valid Egyptian mobile number');
+    } else {
+        this.setCustomValidity('');
+    }
+});
+
+// Image preview
+document.getElementById('profile_picture').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const profilePic = document.querySelector('.profile-picture');
+            profilePic.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+
+{% endblock ahmed %}

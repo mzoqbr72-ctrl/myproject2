@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div class="error-icon mb-3">
+                            <i class="fas fa-exclamation-triangle text-warning" style="font-size: 4rem;"></i>
+                        </div>
+                        <h2 class="text-warning mb-3">⚠️ مشكلة في تفعيل الحساب</h2>
+                        <p class="text-muted mb-4">
+                            {{ error_message|default:"حدث خطأ أثناء محاولة تفعيل حسابك" }}
+                        </p>
+                    </div>
+                    
+                    <div class="error-details mb-4">
+                        <div class="alert alert-warning">
+                            <h6><i class="fas fa-info-circle me-2"></i>الأسباب المحتملة:</h6>
+                            <ul class="text-start mb-0">
+                                <li>انتهت صلاحية رابط التفعيل (24 ساعة)</li>
+                                <li>رابط التفعيل غير صحيح</li>
+                                <li>تم استخدام الرابط من قبل</li>
+                                <li>مشكلة في الخادم</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="solutions mb-4">
+                        <h6 class="text-primary mb-3">💡 الحلول المقترحة:</h6>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="solution-item p-3 border rounded">
+                                    <i class="fas fa-redo text-primary mb-2" style="font-size: 1.5rem;"></i>
+                                    <h6>إعادة التسجيل</h6>
+                                    <small class="text-muted">سجل حساب جديد</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="solution-item p-3 border rounded">
+                                    <i class="fas fa-envelope text-info mb-2" style="font-size: 1.5rem;"></i>
+                                    <h6>تحقق من البريد</h6>
+                                    <small class="text-muted">ابحث عن رسالة أحدث</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-user-plus me-2"></i>تسجيل جديد
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-secondary btn-lg me-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-info btn-lg">
+                            <i class="fas fa-home me-2"></i>الرئيسية
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <small class="text-muted">
+                            إذا استمرت المشكلة، يرجى التواصل مع فريق الدعم الفني
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-icon {
+    animation: shake 1s ease-out;
+}
+
+.solution-item {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+}
+
+.solution-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border-color: var(--primary) !important;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.action-buttons .btn {
+    transition: all 0.3s ease;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.alert ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.alert ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.alert ul li:last-child {
+    border-bottom: none;
+}
+</style>
+
+{% endblock ahmed %}

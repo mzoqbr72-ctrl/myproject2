@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h4 class="mb-0">
+                        <i class="fas fa-plus-circle me-2"></i>Create Your Project
+                    </h4>
+                    <p class="text-muted mb-0">Share your vision and start raising funds</p>
+                </div>
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Basic Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-info-circle me-2 text-primary"></i>Basic Information
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="title" class="form-label">
+                                    <i class="fas fa-heading me-2"></i>Project Title
+                                </label>
+                                <input type="text" class="form-control" id="title" name="title" required 
+                                       placeholder="Enter a compelling title for your project">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="category" class="form-label">
+                                    <i class="fas fa-tags me-2"></i>Category
+                                </label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Select Category</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category.id }}">{{ category.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="details" class="form-label">
+                                <i class="fas fa-align-left me-2"></i>Project Details
+                            </label>
+                            <textarea class="form-control" id="details" name="details" rows="6" required
+                                      placeholder="Describe your project in detail. What is it about? Why is it important? What will you do with the funds?"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="tags" class="form-label">
+                                <i class="fas fa-hashtag me-2"></i>Tags
+                            </label>
+                            <input type="text" class="form-control" id="tags" name="tags" 
+                                   placeholder="Enter tags separated by commas (e.g., technology, education, art)">
+                            <small class="text-muted">Tags help people discover your project</small>
+                        </div>
+                        
+                        <!-- Financial Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-money-bill-wave me-2 text-success"></i>Financial Information
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="total_target" class="form-label">
+                                    <i class="fas fa-bullseye me-2"></i>Funding Target (EGP)
+                                </label>
+                                <input type="number" class="form-control" id="total_target" name="total_target" 
+                                       min="1" step="0.01" required placeholder="250000">
+                                <small class="text-muted">Set a realistic funding goal</small>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="start_date" class="form-label">
+                                    <i class="fas fa-calendar-plus me-2"></i>Start Date
+                                </label>
+                                <input type="date" class="form-control" id="start_date" name="start_date" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="end_date" class="form-label">
+                                <i class="fas fa-calendar-minus me-2"></i>End Date
+                            </label>
+                            <input type="date" class="form-control" id="end_date" name="end_date" required>
+                            <small class="text-muted">Campaign duration should be between 1-60 days</small>
+                        </div>
+                        
+                        <!-- Project Images -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="border-bottom pb-2 mb-3">
+                                    <i class="fas fa-images me-2 text-info"></i>Project Images
+                                </h5>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="images" class="form-label">
+                                <i class="fas fa-upload me-2"></i>Upload Images
+                            </label>
+                            <input type="file" class="form-control" id="images" name="images" multiple accept="image/*">
+                            <small class="text-muted">Upload multiple images to showcase your project. First image will be the main cover.</small>
+                        </div>
+                        
+                        <!-- Preview Section -->
+                        <div class="mb-4">
+                            <div class="row" id="imagePreview">
+                                <!-- Image previews will be shown here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-rocket me-2"></i>Launch Your Project
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Tips Section -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-lightbulb me-2 text-warning"></i>Tips for a Successful Campaign
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Write a compelling story
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Use high-quality images
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Set realistic funding goals
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Share your campaign widely
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Engage with your supporters
+                                </li>
+                                <li class="mb-2">
+                                    <i class="fas fa-check text-success me-2"></i>
+                                    Keep your campaign updated
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Image preview functionality
+document.getElementById('images').addEventListener('change', function(e) {
+    const preview = document.getElementById('imagePreview');
+    preview.innerHTML = '';
+    
+    for (let i = 0; i < e.target.files.length; i++) {
+        const file = e.target.files[i];
+        if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const col = document.createElement('div');
+                col.className = 'col-md-4 mb-3';
+                col.innerHTML = `
+                    <div class="card">
+                        <img src="${e.target.result}" class="card-img-top" style="height: 150px; object-fit: cover;" alt="Preview">
+                        <div class="card-body p-2">
+                            <small class="text-muted">${file.name}</small>
+                        </div>
+                    </div>
+                `;
+                preview.appendChild(col);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+});
+
+// Date validation
+document.getElementById('end_date').addEventListener('change', function() {
+    const startDate = new Date(document.getElementById('start_date').value);
+    const endDate = new Date(this.value);
+    
+    if (endDate <= startDate) {
+        alert('End date must be after start date');
+        this.value = '';
+    }
+    
+    const diffTime = Math.abs(endDate - startDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays > 60) {
+        alert('Campaign duration cannot exceed 60 days');
+        this.value = '';
+    }
+});
+
+// Set minimum start date to today
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('start_date').min = today;
+document.getElementById('end_date').min = today;
+</script>
+
+{% endblock ahmed %}

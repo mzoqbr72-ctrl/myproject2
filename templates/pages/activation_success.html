@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <div class="success-icon mb-3">
+                            <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                        </div>
+                        <h2 class="text-success mb-3">🎉 تم تفعيل حسابك بنجاح!</h2>
+                        <p class="text-muted mb-4">
+                            مرحباً <strong>{{ user.first_name }} {{ user.last_name }}</strong>،<br>
+                            يمكنك الآن تسجيل الدخول والبدء في استخدام منصة CrowdFund Egypt
+                        </p>
+                    </div>
+                    
+                    <div class="features-grid mb-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-item p-3 border rounded">
+                                    <i class="fas fa-rocket text-primary mb-2" style="font-size: 2rem;"></i>
+                                    <h6>إنشاء المشاريع</h6>
+                                    <small class="text-muted">ابدأ مشروعك الأول</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-item p-3 border rounded">
+                                    <i class="fas fa-heart text-danger mb-2" style="font-size: 2rem;"></i>
+                                    <h6>دعم المشاريع</h6>
+                                    <small class="text-muted">ساعد الآخرين</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-item p-3 border rounded">
+                                    <i class="fas fa-comments text-info mb-2" style="font-size: 2rem;"></i>
+                                    <h6>التفاعل</h6>
+                                    <small class="text-muted">تواصل مع المجتمع</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="feature-item p-3 border rounded">
+                                    <i class="fas fa-chart-line text-success mb-2" style="font-size: 2rem;"></i>
+                                    <h6>متابعة التقدم</h6>
+                                    <small class="text-muted">راقب مشاريعك</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-sign-in-alt me-2"></i>تسجيل الدخول
+                        </a>
+                        <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-lg">
+                            <i class="fas fa-home me-2"></i>الرئيسية
+                        </a>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <small class="text-muted">
+                            تم إرسال رسالة ترحيب إلى بريدك الإلكتروني مع نصائح للبدء
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.success-icon {
+    animation: bounceIn 1s ease-out;
+}
+
+.feature-item {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+}
+
+.feature-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--primary) !important;
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.action-buttons .btn {
+    transition: all 0.3s ease;
+}
+
+.action-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+</style>
+
+{% endblock ahmed %}

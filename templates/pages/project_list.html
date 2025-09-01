@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+{% block ahmed %}
+
+<div class="container mt-5">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="text-center mb-3">
+                <i class="fas fa-project-diagram me-2 text-primary"></i>Browse Projects
+            </h1>
+            <p class="text-center text-muted lead">Discover amazing projects and support creators in Egypt</p>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <form method="get" class="row g-3">
+                        <div class="col-md-6">
+                            <label for="search" class="form-label">
+                                <i class="fas fa-search me-2"></i>Search Projects
+                            </label>
+                            <input type="text" class="form-control" id="search" name="search" 
+                                   value="{{ search_query }}" placeholder="Search by title, tags, or details...">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="category" class="form-label">
+                                <i class="fas fa-tags me-2"></i>Category
+                            </label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">All Categories</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}" {% if selected_category == category.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ category.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">&nbsp;</label>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-filter me-2"></i>Filter
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    {% if search_query or selected_category %}
+                        <div class="mt-3">
+                            <a href="{% url 'project_list' %}" class="btn btn-outline-secondary btn-sm">
+                                <i class="fas fa-times me-2"></i>Clear Filters
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Count -->
+    {% if search_query or selected_category %}
+        <div class="row mb-3">
+            <div class="col-12">
+                <p class="text-muted">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Showing {{ page_obj.paginator.count }} project{{ page_obj.paginator.count|pluralize }}
+                    {% if search_query %}matching "{{ search_query }}"{% endif %}
+                    {% if selected_category %}in selected category{% endif %}
+                </p>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Projects Grid -->
+    {% if page_obj %}
+        <div class="row">
+            {% for project in page_obj %}
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="card project-card h-100">
+                        {% if project.images.first %}
+                            <img src="{{ project.images.first.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                        {% else %}
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center">
+                                <i class="fas fa-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title">{{ project.title }}</h5>
+                                <span class="badge bg-primary">{{ project.category.name }}</span>
+                            </div>
+                            
+                            <p class="card-text text-muted">{{ project.details|truncatewords:20 }}</p>
+                            
+                            {% if project.tags %}
+                                <div class="mb-3">
+                                    {% for tag in project.tags.split|slice:":3" %}
+                                        <span class="tag">{{ tag.strip }}</span>
+                                    {% endfor %}
+                                    {% if project.tags.split|length > 3 %}
+                                        <span class="tag">+{{ project.tags.split|length|add:"-3" }} more</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="progress mb-3">
+                                <div class="progress-bar" role="progressbar" style="width: {{ project.get_progress_percentage }}%">
+                                    {{ project.get_progress_percentage|floatformat:1 }}%
+                                </div>
+                            </div>
+                            
+                            <div class="row text-center mb-3">
+                                <div class="col-6">
+                                    <small class="text-muted">Raised</small>
+                                    <div class="fw-bold text-success">{{ project.current_amount }} EGP</div>
+                                </div>
+                                <div class="col-6">
+                                    <small class="text-muted">Target</small>
+                                    <div class="fw-bold">{{ project.total_target }} EGP</div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    Ends {{ project.end_date|date:"M d, Y" }}
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fas fa-user me-1"></i>
+                                    {{ project.creator.first_name }}
+                                </small>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <div class="d-grid">
+                                <a href="{% url 'project_detail' project.id %}" class="btn btn-primary">
+                                    <i class="fas fa-eye me-2"></i>View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Project pagination">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page=1{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+                                        <i class="fas fa-angle-double-left"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+                                        <i class="fas fa-angle-left"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in page_obj.paginator.page_range %}
+                                {% if page_obj.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+                                        <i class="fas fa-angle-right"></i>
+                                    </a>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if search_query %}&search={{ search_query }}{% endif %}{% if selected_category %}&category={{ selected_category }}{% endif %}">
+                                        <i class="fas fa-angle-double-right"></i>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <!-- No Projects Found -->
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <i class="fas fa-search text-muted mb-3" style="font-size: 4rem;"></i>
+                    <h4 class="text-muted">No projects found</h4>
+                    <p class="text-muted">
+                        {% if search_query %}
+                            No projects match your search "{{ search_query }}".
+                        {% elif selected_category %}
+                            No projects found in the selected category.
+                        {% else %}
+                            No projects are currently available.
+                        {% endif %}
+                    </p>
+                    <a href="{% url 'project_list' %}" class="btn btn-primary">
+                        <i class="fas fa-list me-2"></i>View All Projects
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock ahmed %}
