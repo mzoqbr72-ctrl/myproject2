@@ -16,6 +16,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.db.models import Q, Avg
 from django.core.paginator import Paginator
+from decimal import Decimal, InvalidOperation
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 
 EGYPTIAN_PHONE_REGEX = r'^(\+20|0)?1[0125][0-9]{8}$'
 
@@ -334,12 +337,21 @@ def project_detail(request, project_id):
     }
     return render(request, 'pages/project_detail.html', context)
 
+
+
 @login_required
 def donate_to_project(request, project_id):
     if request.method == 'POST':
         try:
             project = Project.objects.get(id=project_id, is_active=True)
-            amount = float(request.POST.get('amount', 0))
+            
+            # safe conversion to Decimal
+            try:
+                amount = Decimal(request.POST.get('amount', '0'))
+            except (InvalidOperation, ValueError):
+                messages.error(request, 'Invalid donation amount.')
+                return redirect('project_detail', project_id=project_id)
+
             message = request.POST.get('message', '')
             
             if amount <= 0:
@@ -360,8 +372,8 @@ def donate_to_project(request, project_id):
             
             messages.success(request, f'Thank you for your donation of {amount} EGP!')
             
-        except (Project.DoesNotExist, ValueError):
-            messages.error(request, 'Invalid project or amount.')
+        except Project.DoesNotExist:
+            messages.error(request, 'Invalid project.')
     
     return redirect('project_detail', project_id=project_id)
 
