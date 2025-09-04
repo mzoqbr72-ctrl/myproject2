@@ -76,11 +76,15 @@ class RegistrationView(View):
         # Generate activation token
         token = get_random_string(48)
         ActivationToken.objects.create(user=user, token=token)
+        
+        
+        
+
+        from django.conf import settings
 
         # Send activation email
-        activation_link = request.build_absolute_uri(
-            reverse('activate', args=[token])
-        )
+        activation_link = f"{settings.SITE_URL}{reverse('activate', args=[token])}"
+
         try:
             if send_activation_email(user, activation_link):
                 messages.success(request, 'تم التسجيل بنجاح! يرجى التحقق من بريدك الإلكتروني لتفعيل حسابك.')
@@ -89,8 +93,11 @@ class RegistrationView(View):
         except Exception as e:
             print(f"Error sending activation email: {e}")
             messages.warning(request, 'تم التسجيل بنجاح! لكن حدث خطأ في إرسال رسالة التفعيل. يرجى التواصل مع الدعم الفني.')
-        
+
         return redirect('register')
+
+
+
 
 class LoginView(View):
     def get(self, request):
