@@ -545,19 +545,26 @@ def forgot_password(request):
         email = request.POST.get('email')
         try:
             user = CustomUser.objects.get(email=email)
-            # Generate reset token
+            
+            # حذف أي رموز موجودة للمستخدم لتجنب خطأ UNIQUE
+            PasswordResetToken.objects.filter(user=user).delete()
+            
+            # إنشاء رمز جديد
             token = get_random_string(48)
             PasswordResetToken.objects.create(user=user, token=token)
             
-            # Send reset email
+            # إرسال رابط إعادة التعيين
             reset_link = request.build_absolute_uri(
                 reverse('reset_password', args=[token])
             )
+            
             if send_password_reset_email(user, reset_link):
                 messages.success(request, 'تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.')
             else:
                 messages.error(request, 'حدث خطأ في إرسال رسالة إعادة تعيين كلمة المرور. يرجى المحاولة مرة أخرى.')
+            
             return redirect('login')
+        
         except CustomUser.DoesNotExist:
             messages.error(request, 'No user found with this email address.')
     
